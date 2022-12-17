@@ -1,0 +1,108 @@
+/* *{
+    background:transparent;
+    color:rgb(255,255,255);
+} */
+
+/* QTabBar */
+QTabWidget::pane{
+    border: none;
+}
+
+QTabBar{
+    height: 32px;
+}
+
+QTabBar::tab{
+    margin-left: 2px;
+    padding:5px;
+    min-width: 40px;
+    height:20px;
+    border: 1px solid gray;
+    border-radius:5px;
+    text-align:center;
+}
+
+QTabBar::tab:selected{
+    background-color:rgb(255,255,255);
+}
+
+/* QLabel */
+QLabel{
+    qproperty-alignment: AlignCenter;
+}
+
+/* QMenu */
+QMenu{
+    background:rgb(242, 242, 242);
+    /* background:transparent; */
+    margin: 0px;
+    padding: 5px 0px 5px 0px;
+    border-radius:15px;
+    border: 1px solid rgb(196, 199, 200);
+}
+
+QMenu::separator {
+    height: 1px;
+    width: 140px;
+    background: rgba(0, 0, 0, 104);
+    margin-right: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 13;
+}
+
+QMenu::item {
+    padding: 4px 28px 4px 28px;
+    border: 1px transparent;
+    border-radius:5px;
+}
+
+QMenu::item:selected {
+    border-width: 1px;
+    border-color: rgb(212, 212, 212);
+    background: rgba(0, 0, 0, 25);
+    color: black;
+}
+
+QMenu::icon {
+    position: absolute;
+    left: 16px;
+}
+
+QMenu::right-arrow {
+    width: 16px;
+    height: 16px;
+    right: 16px;
+    border-border-image: url(resource/images/子菜单右箭头.png);
+
+}
+
+/* QLineEdit */
+QLineEdit {
+    padding: 5px;
+    selection-background-color: rgb(0, 153, 188);
+}
+
+QLineEdit:focus {
+    border: 1px solid rgb(0, 153, 188);
+}
+
+QLineEdit:disabled {
+    color: rgb(122, 122, 122);
+    border: none;
+    background-color: rgb(204, 204, 204);
+}
+
+/* QListWidget */
+QListWidget::item:selected{
+    background-color:rgb(242, 242, 242);
+}
+
+/* QPushButton */
+QPushButton{
+    background-color:rgb(242, 242, 242);
+}
+
+QPushButton::menu-indicator{
+    image:none;
+}
