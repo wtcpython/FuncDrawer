@@ -7,7 +7,6 @@ from translate import tras
 from PySide6.QtCore import Signal
 from PySide6.QtGui import Qt, QKeyEvent
 from PySide6.QtWidgets import QPushButton, QGridLayout, QLineEdit, QWidget
-from widgets import LineEdit
 
 
 names = ["", "", "", "", "Back",

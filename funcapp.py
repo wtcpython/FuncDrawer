@@ -8,7 +8,7 @@ import webbrowser
 
 from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt
 from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
-                               QTextEdit)
+                               QTextEdit, QWidget)
 
 from widgets import Menu
 from graph import Widget
@@ -25,7 +25,7 @@ class MainWidget(QTabWidget):
         self.setWindowTitle(tras("Func Drawer"))
 
         self.setTabsClosable(True)
-        self.tabCloseRequested.connect(self.removeTab)
+        self.tabCloseRequested.connect(self.remove_tab)
         self.setMovable(True)
         self.setUsesScrollButtons(True)
 
@@ -34,7 +34,7 @@ class MainWidget(QTabWidget):
 
         self.tab_button = QPushButton("+", self)
         self.tab_button.clicked.connect(self.add_widget)
-        self.setCornerWidget(self.tab_button)
+        self.tab_button.setFixedSize(32, 32)
 
         self.update_md = QTextEdit()
         self.update_md.setReadOnly(True)
@@ -54,6 +54,15 @@ class MainWidget(QTabWidget):
             self.menu.addAction(action)
         self.icon_button.setMenu(self.menu)
 
+        self.addTab(QWidget(), "")
+        self.tabbar = self.tabBar()
+        self.tabbar.setTabButton(
+            self.count()-1,
+            self.tabbar.ButtonPosition.LeftSide, self.tab_button)
+        self.tabbar.setTabButton(
+            self.count()-1,
+            self.tabbar.ButtonPosition.RightSide, None)
+        self.tabbar.setTabEnabled(self.count()-1, False)
         self.add_widget()
 
     def add_widget(self):
@@ -61,8 +70,17 @@ class MainWidget(QTabWidget):
         新增一个标签页，并定位到新标签页的位置
         """
         widget = Widget()
-        self.addTab(widget, widget.windowTitle())
-        self.setCurrentIndex(self.count()-1)
+        self.insertTab(self.count()-1, widget, widget.windowTitle())
+        self.setCurrentIndex(self.count()-2)
+
+    def remove_tab(self, index):
+        """
+        移除标签页
+        """
+        self.removeTab(index)
+        self.setCurrentIndex(self.count()-2)
+        if self.count() <= 1:
+            self.close()
 
     def setting(self, about=False):
         """
