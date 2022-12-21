@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFileDialog,
 
 from translate import tras, settings, lang
 
-__ver__ = "0.6.14"
+__ver__ = "0.6.15"
 
 
 class ComboBox(QComboBox):

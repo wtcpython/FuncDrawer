@@ -96,8 +96,8 @@ class MainWidget(QTabWidget):
                 current_widget.list_widget.setCurrentRow(current_row)
                 break
         else:
-            self.addTab(window, window.windowTitle())
-            self.setCurrentIndex(self.count()-1)
+            self.insertTab(self.count()-1, window, window.windowTitle())
+            self.setCurrentIndex(self.count()-2)
 
     def about(self):
         """
@@ -126,8 +126,8 @@ class MainWidget(QTabWidget):
         """
         打开更新日志
         """
-        self.addTab(self.update_md, tras("update log"))
-        self.setCurrentIndex(self.count()-1)
+        self.insertTab(self.count()-1, self.update_md, tras("update log"))
+        self.setCurrentIndex(self.count()-2)
 
     def open_gh(self):
         """
