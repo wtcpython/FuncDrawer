@@ -72,9 +72,9 @@ class Widget(QWidget):
 
         self.items1 = [(tras("Save as"), self.save_figure)]
         self.items2 = [
-            (tras("map"), self.dialog.show),
+            (tras("Draw"), self.dialog.show),
             (tras("Undo"), self.remove),
-            (tras("empty"), self.plot.plotItem.clear)
+            (tras("Clear"), self.plot.plotItem.clear)
         ]
 
         self.add_menu(tras("File"), self.items1)
