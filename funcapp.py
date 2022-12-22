@@ -6,7 +6,7 @@
 import sys
 import webbrowser
 
-from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt
+from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt, QMouseEvent
 from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
                                QTextEdit, QWidget)
 
@@ -73,7 +73,7 @@ class MainWidget(QTabWidget):
         self.insertTab(self.count()-1, widget, widget.windowTitle())
         self.setCurrentIndex(self.count()-2)
 
-    def remove_tab(self, index):
+    def remove_tab(self, index: int):
         """
         移除标签页
         """
@@ -105,6 +105,19 @@ class MainWidget(QTabWidget):
         """
         self.setting(True)
 
+    def open_update(self):
+        """
+        打开更新日志
+        """
+        self.insertTab(self.count()-1, self.update_md, tras("update log"))
+        self.setCurrentIndex(self.count()-2)
+
+    def open_gh(self):
+        """
+        打开本软件GitHub网站
+        """
+        webbrowser.open("https://www.github.com/wtcpython/FuncDrawer")
+
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """
         重写QT按键事件
@@ -122,18 +135,15 @@ class MainWidget(QTabWidget):
             else:
                 self.setCurrentIndex(self.count()-1)
 
-    def open_update(self):
+    def mousePressEvent(self, event: QMouseEvent) -> None:
         """
-        打开更新日志
+        重写QT鼠标点击事件
         """
-        self.insertTab(self.count()-1, self.update_md, tras("update log"))
-        self.setCurrentIndex(self.count()-2)
-
-    def open_gh(self):
-        """
-        打开本软件GitHub网站
-        """
-        webbrowser.open("https://www.github.com/wtcpython/FuncDrawer")
+        super().mousePressEvent(event)
+        if event.button() == Qt.MouseButton.MiddleButton:
+            index = self.tabbar.tabAt(event.position().toPoint())
+            if index >= 0:
+                self.remove_tab(index)
 
 
 def main():
