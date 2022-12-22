@@ -10,9 +10,9 @@
     "File": "ファイル",
     "Save as": "名前を付けて",
     "Edit": "編集者",
-    "map": "描画",
+    "Draw": "描画",
     "Undo": "撤回",
-    "empty": "空を空ける",
+    "Clear": "空を空ける",
     "Please restart after changing Settings": "設定を変更して再起動してください",
     "Restart": "リセット",
     "regular term": "定番",
@@ -20,5 +20,7 @@
     "Font Size": ":フォントサイズ",
     "interface language": "インタフェース言語",
     "image quality": "画質",
-    "File Save Path": "ファイルのデフォルト保存場所"
+    "File Save Path": "ファイルのデフォルト保存場所",
+    "update log": "ログを更新する",
+    "Github Project": "Githubプロジェクト"
 }

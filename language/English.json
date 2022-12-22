@@ -10,9 +10,9 @@
     "File": "File",
     "Save as": "Save as",
     "Edit": "Edit",
-    "map": "map",
+    "Draw": "Draw",
     "Undo": "Undo",
-    "empty": "empty",
+    "Clear": "Clear",
     "Please restart after changing Settings": "Please restart after changing Settings",
     "Restart": "Restart",
     "regular term": "regular term",
@@ -20,5 +20,7 @@
     "Font Size": "Font Size",
     "interface language": "interface language",
     "image quality": "image quality",
-    "File Save Path": "File Save Path"
+    "File Save Path": "File Save Path",
+    "update log": "update log",
+    "Github Project": "Github Project"
 }

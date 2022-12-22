@@ -10,9 +10,9 @@
     "File": "文件",
     "Save as": "另存为",
     "Edit": "编辑",
-    "map": "绘制",
+    "Draw": "绘制",
     "Undo": "撤销",
-    "empty": "清空",
+    "Clear": "清空",
     "Please restart after changing Settings": "更改设置后请重启",
     "Restart": "重启",
     "regular term": "常规项",
@@ -20,5 +20,7 @@
     "Font Size": "字体大小",
     "interface language": "界面语言",
     "image quality": "图像质量",
-    "File Save Path": "文件默认保存位置"
+    "File Save Path": "文件默认保存位置",
+    "update log": "更新日志",
+    "Github Project": "Github 仓库"
 }
