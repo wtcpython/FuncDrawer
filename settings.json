@@ -1,7 +1,7 @@
 {
     "Font": "楷体",
     "Font-Size": "18",
-    "ImageDpi": "1200",
     "language": "Chinese",
-    "defaultPath": "./"
+    "defaultPath": "./",
+    "micamode":"light"
 }
