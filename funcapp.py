@@ -5,6 +5,7 @@
 # pylint: disable=no-name-in-module
 import sys
 import webbrowser
+import win32mica
 
 from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt, QMouseEvent
 from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
@@ -160,6 +161,9 @@ def main():
     style += f"*{'{'}font:{settings['Font-Size']}px '{settings['Font']}'{'}'}"
     app.setStyleSheet(style)
     window = MainWidget()
+    window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    hwnd = window.winId()
+    win32mica.ApplyMica(hwnd, win32mica.MICAMODE.DARK)
     window.showMaximized()
     sys.exit(app.exec())
 
