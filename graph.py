@@ -171,7 +171,6 @@ class Widget(QWidget):
             Scalable Vector Graphics(*.svg);;
             Portable Document Format(*.pdf)
             """)[0]
-        # dpi = int(settings["ImageDpi"])
         ex = ImageExporter(self.plot.plotItem)
         if file_name:
             ex.export(file_name)

@@ -163,7 +163,8 @@ def main():
     window = MainWidget()
     window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     hwnd = window.winId()
-    win32mica.ApplyMica(hwnd, win32mica.MICAMODE.DARK)
+    mode = settings["micamode"] == "dark"
+    win32mica.ApplyMica(hwnd, mode)
     window.showMaximized()
     sys.exit(app.exec())
 

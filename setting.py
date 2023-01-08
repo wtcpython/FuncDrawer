@@ -179,9 +179,9 @@ class FigureWidget(QWidget):
         super().__init__()
         self.setWindowTitle("Figure")
 
-        self.image_label = QLabel(tras("image quality"))
-        self.image_box = ComboBox(["500", "800", "1000", "1200", "1500"])
-        self.image_box.setCurrentText(settings["ImageDpi"])
+        self.mica_label = QLabel(tras("mica mode"))
+        self.mica_box = ComboBox(["light", "dark"])
+        self.mica_box.setCurrentText(settings["micamode"])
 
         self.save_path_label = QLabel(tras("File Save Path"))
         self.select_label = QLabel(settings["defaultPath"])
@@ -189,8 +189,8 @@ class FigureWidget(QWidget):
 
         self.layout = QGridLayout(self)
 
-        self.layout.addWidget(self.image_label, 1, 0)
-        self.layout.addWidget(self.image_box, 1, 1)
+        self.layout.addWidget(self.mica_label, 1, 0)
+        self.layout.addWidget(self.mica_box, 1, 1)
         self.layout.addWidget(self.save_path_label, 2, 0)
         self.layout.addWidget(self.select_label, 2, 1)
 
@@ -200,7 +200,7 @@ class FigureWidget(QWidget):
         """
         保存设置
         """
-        settings["ImageDpi"] = self.image_box.currentText()
+        settings["micamode"] = self.mica_box.currentText()
         settings["defaultPath"] = self.select_label.text()
 
     def change_save_path(self, event):
