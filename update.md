@@ -1,5 +1,12 @@
 # Update log
 
+## 0.6.16
+
+### update time:2023.1.9
+
+1.新增窗口效果设置:Default, Acrylic, Mica
+2.窗口深浅色跟随系统
+
 ## 0.6.15
 
 ### update time:2022.12.21-2023.1.8
