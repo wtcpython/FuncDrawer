@@ -1,6 +1,7 @@
 {
     "Func Drawer": "Func Drawer",
     "New Figure": "New Figure",
+    "More": "More",
     "Save Image As": "Save Image As",
     "Function input error!": "Function input error!",
     "Yes": "Yes",
@@ -19,11 +20,11 @@
     "Font": "Font",
     "Font Size": "Font Size",
     "interface language": "interface language",
-    "mica mode":"mica mode",
+    "Window Effect": "Window Effect",
     "File Save Path": "File Save Path",
     "update log": "update log",
     "Github Project": "Github Project",
-    "Trig func":"Trig func",
-    "Inverse trig":"Inverse trig",
-    "Log func":"Log func"
+    "Trig func": "Trig func",
+    "Inverse trig": "Inverse trig",
+    "Log func": "Log func"
 }

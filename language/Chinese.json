@@ -1,6 +1,7 @@
 {
     "Func Drawer": "函数绘图",
     "New Figure": "新画板",
+    "More": "更多",
     "Save Image As": "图片另存为",
     "Function input error!": "函数输入有误!",
     "Yes": "确定",
@@ -19,11 +20,11 @@
     "Font": "字体",
     "Font Size": "字体大小",
     "interface language": "界面语言",
-    "mica mode":"Mica模式",
+    "Window Effect": "窗口效果",
     "File Save Path": "文件默认保存位置",
     "update log": "更新日志",
     "Github Project": "Github 仓库",
-    "Trig func":"三角函数",
-    "Inverse trig":"反三角函数",
-    "Log func":"对数函数"
+    "Trig func": "三角函数",
+    "Inverse trig": "反三角函数",
+    "Log func": "对数函数"
 }

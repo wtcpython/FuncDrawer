@@ -1,6 +1,7 @@
 {
     "Func Drawer": "関数描画",
     "New Figure": "新画板",
+    "More": "より",
     "Save Image As": "画像は別存",
     "Function input error!": "関数入力ミス!",
     "Yes": "確定",
@@ -19,11 +20,11 @@
     "Font": "フォント",
     "Font Size": ":フォントサイズ",
     "interface language": "インタフェース言語",
-    "mica mode":"mica モデル",
+    "Window Effect": "ウィンドウ効果です",
     "File Save Path": "ファイルのデフォルト保存場所",
     "update log": "ログを更新する",
     "Github Project": "Githubプロジェクト",
-    "Trig func":"三角関数です",
-    "Inverse trig":"逆三角関数です",
-    "Log func":"対数関数です"
+    "Trig func": "三角関数です",
+    "Inverse trig": "逆三角関数です",
+    "Log func": "対数関数です"
 }
