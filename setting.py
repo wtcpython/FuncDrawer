@@ -7,13 +7,13 @@ import os
 import sys
 
 from PySide6.QtCore import QSize, Qt, qVersion
-from PySide6.QtGui import QFontDatabase
+from PySide6.QtGui import QFontDatabase, QMouseEvent
 from PySide6.QtWidgets import (QApplication, QComboBox, QFileDialog,
                                QGridLayout, QHBoxLayout, QLabel, QListView,
                                QListWidget, QListWidgetItem, QPushButton,
                                QStackedWidget, QVBoxLayout, QWidget)
 
-from translate import tras, settings, lang
+from translate import tras, settings, LANG
 
 __ver__ = "0.6.15"
 
@@ -158,7 +158,7 @@ class UIWidget(SettingWidgetBase):
         self.language_box = self.add_layout(
             tras("interface language"), ["Chinese", "English", "Japanese"])
 
-        self.language_box.setCurrentText(lang)
+        self.language_box.setCurrentText(LANG)
 
         self.vlayout.addWidget(QLabel())
 
@@ -203,12 +203,12 @@ class FigureWidget(QWidget):
         settings["micamode"] = self.mica_box.currentText()
         settings["defaultPath"] = self.select_label.text()
 
-    def change_save_path(self, event):
+    def change_save_path(self, event: QMouseEvent):
         """
         修改默认保存位置
         """
-        path = QFileDialog.getExistingDirectory(self)
-        if path:
+        if event.buttons() == Qt.MouseButton.LeftButton and \
+                (path := QFileDialog.getExistingDirectory(self)):
             self.select_label.setText(path)
 
 

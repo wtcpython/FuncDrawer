@@ -13,20 +13,20 @@ else:
 
 with open("./settings.json", encoding="UTF-8") as f:
     settings: dict = json.load(f)
-    lang = settings["language"]
-path = Path(tmp_path/f"language/{lang}.json")
+    LANG = settings["language"]
+path = Path(tmp_path/f"language/{LANG}.json")
 if path.exists():
     with open(path, encoding="UTF-8") as g:
         lang_pack = json.load(g)
 else:
-    lang = "English"
+    LANG = "English"
 
 
 def tras(text: str) -> str:
     """
     语言转换
     """
-    if lang == "English":
+    if LANG == "English":
         return text
     if text not in lang_pack:
         print(f"{text}未被翻译！")
