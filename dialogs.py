@@ -2,7 +2,7 @@
     对话框主文件
 """
 # pylint: disable=no-name-in-module
-import win32mica
+from effect import set_effect
 from setting import ComboBox
 from translate import tras, settings
 from widgets import LineEdit
@@ -87,7 +87,7 @@ class FuncDialog(QWidget):
         self.setWindowTitle(tras("Func Drawer"))
         self.signal.emit({})
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        win32mica.ApplyMica(self.winId(), settings["micamode"] == "dark")
+        set_effect(self.winId(), settings["micamode"] == "dark")
 
         self.glayout = QGridLayout(self)
         self.glayout.setSpacing(10)

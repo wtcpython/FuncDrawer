@@ -5,7 +5,7 @@
 # pylint: disable=no-name-in-module
 import sys
 import webbrowser
-import win32mica
+from effect import set_effect
 from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt, QMouseEvent
 from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
                                QTextEdit, QWidget)
@@ -163,7 +163,7 @@ def main():
     window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     hwnd = window.winId()
     mode = settings["micamode"] == "dark"
-    win32mica.ApplyMica(hwnd, mode)
+    set_effect(hwnd, mode)
     window.showMaximized()
     sys.exit(app.exec())
 
