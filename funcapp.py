@@ -6,7 +6,6 @@
 import sys
 import webbrowser
 import win32mica
-
 from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt, QMouseEvent
 from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
                                QTextEdit, QWidget)
@@ -14,7 +13,7 @@ from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
 from widgets import Menu
 from graph import Widget
 from setting import Setting
-from translate import tras, settings
+from translate import tras, settings, tmp_path
 
 
 class MainWidget(QTabWidget):
@@ -30,8 +29,8 @@ class MainWidget(QTabWidget):
         self.setMovable(True)
         self.setUsesScrollButtons(True)
 
-        self.icon_button = QPushButton(QIcon("icon.ico"), "")
-        self.setCornerWidget(self.icon_button, Qt.Corner.TopLeftCorner)
+        self.icon_button = QPushButton("更多")
+        self.setCornerWidget(self.icon_button)
 
         self.tab_button = QPushButton("+", self)
         self.tab_button.clicked.connect(self.add_widget)
@@ -156,7 +155,7 @@ def main():
     app.setStyle("Fusion")
     app.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
-    with open("./style.qss", encoding="UTF-8") as file:
+    with open(tmp_path/"style.qss", encoding="UTF-8") as file:
         style = file.read()
     style += f"*{'{'}font:{settings['Font-Size']}px '{settings['Font']}'{'}'}"
     app.setStyleSheet(style)

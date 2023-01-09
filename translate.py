@@ -2,9 +2,16 @@
     语言转换文件
 """
 import json
+import tempfile
 from pathlib import Path
 
-with open("./settings.json", encoding="UTF-8") as f:
+tmp_dir = list(Path(tempfile.gettempdir()).glob("_MEI*"))
+if tmp_dir:
+    tmp_path = tmp_dir[0]
+else:
+    tmp_path = Path("./")
+
+with open(tmp_path/"settings.json", encoding="UTF-8") as f:
     settings: dict = json.load(f)
     lang = settings["language"]
 path = Path(f"./language/{lang}.json")
