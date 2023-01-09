@@ -11,10 +11,10 @@ if tmp_dir:
 else:
     tmp_path = Path("./")
 
-with open(tmp_path/"settings.json", encoding="UTF-8") as f:
+with open("./settings.json", encoding="UTF-8") as f:
     settings: dict = json.load(f)
     lang = settings["language"]
-path = Path(f"./language/{lang}.json")
+path = Path(tmp_path/f"language/{lang}.json")
 if path.exists():
     with open(path, encoding="UTF-8") as g:
         lang_pack = json.load(g)

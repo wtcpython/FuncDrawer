@@ -38,7 +38,7 @@ class MainWidget(QTabWidget):
 
         self.update_md = QTextEdit()
         self.update_md.setReadOnly(True)
-        with open("./update.md", encoding="UTF-8") as file:
+        with open(tmp_path/"update.md", encoding="UTF-8") as file:
             self.update_md.setMarkdown(file.read())
 
         self.menu_list = [
