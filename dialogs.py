@@ -5,9 +5,10 @@
 import win32mica
 from setting import ComboBox
 from translate import tras, settings
+from widgets import LineEdit
 from PySide6.QtCore import Signal
 from PySide6.QtGui import Qt, QKeyEvent
-from PySide6.QtWidgets import QPushButton, QGridLayout, QLineEdit, QWidget
+from PySide6.QtWidgets import QPushButton, QGridLayout, QWidget
 
 
 names = ["", "", "", "", "Back",
@@ -24,7 +25,7 @@ box4 = [tras("常数"), "e", "pi"]
 STRING = "".join(set(names[5:-1]+box1+box2+box3+box4))
 
 
-class FuncLineEdit(QLineEdit):
+class FuncLineEdit(LineEdit):
     """
     键入函数的输入框
     """
@@ -123,7 +124,7 @@ class FuncDialog(QWidget):
         self.ok_button = QPushButton(tras("Yes"), self)
         self.ok_button.clicked.connect(self.check)
 
-        self.debug_line = QLineEdit(self)
+        self.debug_line = LineEdit()
         self.debug_line.setReadOnly(True)
 
         self.glayout.addWidget(self.func_box1, 1, 0)
