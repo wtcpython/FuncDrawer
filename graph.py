@@ -59,7 +59,8 @@ class Widget(QWidget):
 
         self.list_widget = ListWidget(self)
 
-        self.plot = PlotWidget(background="white")
+        self.mode = "white" if settings["micamode"] == "light" else "black"
+        self.plot = PlotWidget(background=self.mode)
         self.plot.plotItem.resizeEvent = self.pass_event
         self.plot.plotItem.showGrid(True, True)
         self.plot.plotItem.setMenuEnabled(False)

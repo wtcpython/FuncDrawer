@@ -2,8 +2,9 @@
     对话框主文件
 """
 # pylint: disable=no-name-in-module
+import win32mica
 from setting import ComboBox
-from translate import tras
+from translate import tras, settings
 from PySide6.QtCore import Signal
 from PySide6.QtGui import Qt, QKeyEvent
 from PySide6.QtWidgets import QPushButton, QGridLayout, QLineEdit, QWidget
@@ -15,10 +16,10 @@ names = ["", "", "", "", "Back",
          "4", "5", "6", "*", "/",
          "1", "2", "3", "+", "-",
          "0", ".", ",", "x", ""]
-box1 = [tras("三角"), "sin(", "cos(", "tan(", "sinh(", "cosh(", "tanh("]
-box2 = [tras("反三角"), "arcsin(", "arccos(", "arctan(",
+box1 = [tras("Trig func"), "sin(", "cos(", "tan(", "sinh(", "cosh(", "tanh("]
+box2 = [tras("Inverse trig"), "arcsin(", "arccos(", "arctan(",
         "arcsinh(", "arccosh(", "arctanh("]
-box3 = [tras("对数"), "log(", "lg(", "ln(", "sqrt(", "abs("]
+box3 = [tras("Log func"), "log(", "lg(", "ln(", "sqrt(", "abs("]
 box4 = [tras("常数"), "e", "pi"]
 STRING = "".join(set(names[5:-1]+box1+box2+box3+box4))
 
@@ -84,6 +85,8 @@ class FuncDialog(QWidget):
         super().__init__()
         self.setWindowTitle(tras("Func Drawer"))
         self.signal.emit({})
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        win32mica.ApplyMica(self.winId(), settings["micamode"] == "dark")
 
         self.glayout = QGridLayout(self)
         self.glayout.setSpacing(10)
