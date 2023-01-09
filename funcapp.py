@@ -29,7 +29,7 @@ class MainWidget(QTabWidget):
         self.setMovable(True)
         self.setUsesScrollButtons(True)
 
-        self.icon_button = QPushButton("更多")
+        self.icon_button = QPushButton(tras("More"))
         self.setCornerWidget(self.icon_button)
 
         self.tab_button = QPushButton("+", self)
@@ -160,10 +160,8 @@ def main():
     style += f"*{'{'}font:{settings['Font-Size']}px '{settings['Font']}'{'}'}"
     app.setStyleSheet(style)
     window = MainWidget()
-    window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-    hwnd = window.winId()
-    mode = settings["micamode"] == "dark"
-    set_effect(hwnd, mode)
+    # window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    set_effect(window)
     window.showMaximized()
     sys.exit(app.exec())
 

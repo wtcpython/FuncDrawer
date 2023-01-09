@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFileDialog,
 
 from translate import tras, settings, LANG
 
-__ver__ = "0.6.15"
+__ver__ = "0.6.16"
 
 
 class ComboBox(QComboBox):
@@ -179,9 +179,9 @@ class FigureWidget(QWidget):
         super().__init__()
         self.setWindowTitle("Figure")
 
-        self.mica_label = QLabel(tras("mica mode"))
-        self.mica_box = ComboBox(["light", "dark"])
-        self.mica_box.setCurrentText(settings["micamode"])
+        self.mica_label = QLabel(tras("Window Effect"))
+        self.mica_box = ComboBox(["Default", "Mica", "Acrylic"])
+        self.mica_box.setCurrentText(settings["Window-Effect"])
 
         self.save_path_label = QLabel(tras("File Save Path"))
         self.select_label = QLabel(settings["defaultPath"])
@@ -200,7 +200,7 @@ class FigureWidget(QWidget):
         """
         保存设置
         """
-        settings["micamode"] = self.mica_box.currentText()
+        settings["Window-Effect"] = self.mica_box.currentText()
         settings["defaultPath"] = self.select_label.text()
 
     def change_save_path(self, event: QMouseEvent):

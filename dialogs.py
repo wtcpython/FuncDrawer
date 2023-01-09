@@ -4,7 +4,7 @@
 # pylint: disable=no-name-in-module
 from effect import set_effect
 from setting import ComboBox
-from translate import tras, settings
+from translate import tras
 from widgets import LineEdit
 from PySide6.QtCore import Signal
 from PySide6.QtGui import Qt, QKeyEvent
@@ -86,8 +86,7 @@ class FuncDialog(QWidget):
         super().__init__()
         self.setWindowTitle(tras("Func Drawer"))
         self.signal.emit({})
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        set_effect(self.winId(), settings["micamode"] == "dark")
+        set_effect(self)
 
         self.glayout = QGridLayout(self)
         self.glayout.setSpacing(10)

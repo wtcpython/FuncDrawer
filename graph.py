@@ -3,6 +3,7 @@
 """
 # pylint: disable=no-name-in-module
 # pylint: disable=unnecessary-lambda-assignment
+import darkdetect
 from pyqtgraph import PlotWidget
 from pyqtgraph.exporters import ImageExporter
 from numpy import (absolute, arccos, arccosh, arcsin, arcsinh, arctan, arctanh,
@@ -59,7 +60,8 @@ class Widget(QWidget):
 
         self.list_widget = ListWidget(self)
 
-        self.mode = "white" if settings["micamode"] == "light" else "black"
+        self.mode = "black" if darkdetect.theme() == "Dark" and \
+            settings["Window-Effect"] != "Default" else "white"
         self.plot = PlotWidget(background=self.mode)
         self.plot.plotItem.resizeEvent = self.pass_event
         self.plot.plotItem.showGrid(True, True)
