@@ -1,5 +1,5 @@
 *{
-    background:transparent;
+    /* background:transparent; */
     color: rgb(58, 201, 176);
 }
 
@@ -37,7 +37,6 @@ QLabel{
 /* QMenu */
 QMenu{
     background: rgb(242, 242, 242);
-    /* background:transparent; */
     margin: 0px;
     padding: 5px 0px 5px 0px;
     border-radius:15px;
