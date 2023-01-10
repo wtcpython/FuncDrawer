@@ -8,6 +8,10 @@ QTabWidget::pane{
     border: none;
 }
 
+QTabWidget::tab-bar{
+    left: 10px;
+}
+
 QTabBar{
     height: 32px;
 }
