@@ -21,7 +21,7 @@ box1 = [tras("Trig func"), "sin(", "cos(", "tan(", "sinh(", "cosh(", "tanh("]
 box2 = [tras("Inverse trig"), "arcsin(", "arccos(", "arctan(",
         "arcsinh(", "arccosh(", "arctanh("]
 box3 = [tras("Log func"), "log(", "lg(", "ln(", "sqrt(", "abs("]
-box4 = [tras("常数"), "e", "pi"]
+box4 = [tras("constant"), "e", "pi"]
 STRING = "".join(set(names[5:-1]+box1+box2+box3+box4))
 
 
