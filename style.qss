@@ -1,5 +1,5 @@
 *{
-    /* background:transparent; */
+    /* background: rgba(255, 255, 255, 0); */
     color: rgb(58, 201, 176);
 }
 
@@ -10,10 +10,6 @@ QTabWidget::pane{
 
 QTabWidget::tab-bar{
     left: 10px;
-}
-
-QTabBar{
-    height: 32px;
 }
 
 QTabBar::tab{
@@ -30,7 +26,7 @@ QTabBar::tab:enabled{
 }
 
 QTabBar::tab:selected{
-    background-color: rgb(255,255,255);
+    background-color: rgb(255, 255, 255);
 }
 
 /* QLabel */
@@ -38,12 +34,29 @@ QLabel{
     qproperty-alignment: AlignCenter;
 }
 
+/* QMenuBar */
+QMenuBar{
+    border: none;
+}
+
+QMenuBar::item{
+    border: none;
+    padding: 5px;
+}
+
+QMenuBar::item:selected{
+    background: rgb(242, 242, 242);
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+
 /* QMenu */
 QMenu{
     background: rgb(242, 242, 242);
     margin: 0px;
     padding: 5px 0px 5px 0px;
-    border-radius:15px;
+    border-radius: 15px;
     border: 1px solid rgb(196, 199, 200);
 }
 
@@ -59,46 +72,31 @@ QMenu::separator {
 
 QMenu::item {
     padding: 4px 28px 4px 28px;
-    border: 1px transparent;
-    border-radius:5px;
+    border-radius: 5px;
 }
 
 QMenu::item:selected {
-    border-width: 1px;
-    border-color: rgb(212, 212, 212);
+    border: 1px rgb(212, 212, 212);
     background: rgba(0, 0, 0, 25);
     color: black;
-}
-
-QMenu::icon {
-    position: absolute;
-    left: 16px;
 }
 
 QMenu::right-arrow {
     width: 16px;
     height: 16px;
     right: 16px;
-    border-border-image: url(resource/images/子菜单右箭头.png);
-
 }
 
 /* QLineEdit */
 QLineEdit {
-    padding: 5px;
-    selection-background-color: rgb(0, 153, 188);
+    height: 32px;
     border: 1px solid gray;
     border-radius: 5px;
+    padding-left: 5px;
 }
 
 QLineEdit:focus {
     border: 1px solid rgb(0, 153, 188);
-}
-
-QLineEdit:disabled {
-    color: rgb(122, 122, 122);
-    border: none;
-    background-color: rgb(204, 204, 204);
 }
 
 /* QListWidget */
@@ -107,15 +105,25 @@ QListWidget{
     border-radius: 5px;
 }
 
+QListWidget::item{
+    height: 25px;
+}
+
+QListWidget::item:focus,
 QListWidget::item:selected{
-    background-color:rgb(242, 242, 242);
+    background: rgb(255, 182, 193);
 }
 
 /* QPushButton */
 QPushButton{
-    background-color:rgb(242, 242, 242);
+    background: rgb(242, 242, 242);
 }
 
 QPushButton::menu-indicator{
-    image:none;
+    image: none;
+    width: 0px;
+}
+
+#ComboBoxView{
+    background: rgb(242, 242, 242);
 }
