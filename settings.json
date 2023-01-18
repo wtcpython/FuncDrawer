@@ -2,6 +2,7 @@
     "Font": "楷体",
     "Font-Size": "18",
     "language": "Chinese",
-    "defaultPath": "./",
-    "Window-Effect": "Mica"
+    "Window-Effect": "Default",
+    "line-thick": "2",
+    "Anti-aliasing": "Disabled"
 }
