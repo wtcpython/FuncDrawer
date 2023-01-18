@@ -14,6 +14,5 @@ class Menu(QMenu):
         super().__init__(title, parent)
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
-            Qt.WindowType.Popup | Qt.WindowType.NoDropShadowWindowHint
-        )
+            Qt.WindowType.Popup | Qt.WindowType.NoDropShadowWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)

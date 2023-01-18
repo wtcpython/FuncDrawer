@@ -4,50 +4,27 @@
 # pylint: disable=no-name-in-module
 # pylint: disable=unnecessary-lambda-assignment
 import darkdetect
-from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget, CONFIG_OPTIONS
 from pyqtgraph.exporters import ImageExporter
-from numpy import (absolute, arccos, arccosh, arcsin, arcsinh, arctan, arctanh,
-                   cos, cosh, e, linspace, pi, sin, sinh, sqrt, tan, tanh,
-                   log as _log)
-from PySide6.QtGui import QAction, Qt, QPen, QColor
-from PySide6.QtCore import QSize
-from PySide6.QtWidgets import (QFileDialog, QListWidget, QMenuBar,
-                               QListWidgetItem, QVBoxLayout,
-                               QWidget, QListView, QHBoxLayout)
-
+from numpy import (
+    absolute as Abs, arccos, arccosh, arcsin, arcsinh, arctan, pi, e,
+    arctanh, cos, cosh, linspace, sin, sinh, sqrt, tan, tanh, log as ln,
+    log10 as lg)
+from PySide6.QtGui import QAction, QPen, QColor, Qt
+from PySide6.QtWidgets import (QFileDialog, QMenuBar, QVBoxLayout, QPushButton,
+                               QWidget, QHBoxLayout, QScrollArea)
 from dialogs import FuncDialog
 from setting import settings
 from widgets import Menu
 from translate import tras
 
 # 这段没有任何意义，单纯不让flake8和pylint警告
-_ = absolute(1) == arccos(1) == arccosh(1) == arcsin(1) == arcsinh(1) == \
+_ = Abs(1) == arccos(1) == arccosh(1) == arcsin(1) == arcsinh(1) == \
     arctan(1) == arctanh(1) == cos(1) == cosh(1) == sin(1) == sinh(1) == \
-    tan(1) == tanh(1)
+    tan(1) == tanh(1) == lg(1)
 
-ln = lambda x: _log(x)/_log(e)
-lg = lambda x: _log(x)/_log(10)
-log = lambda x, y: _log(y)/_log(x)
-
-
-class ListWidget(QListWidget):
-    """
-    存储函数解析式的listwidget
-    """
-    def __init__(self, parent) -> None:
-        super().__init__(parent)
-        self.setMovement(QListView.Movement.Static)
-        self.setSpacing(1)
-        self.setCurrentRow(0)
-
-    def add_widget(self, text: str):
-        """
-        添加解析式标签
-        """
-        item = QListWidgetItem(text, self)
-        item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
-        item.setSizeHint(QSize(0, 25))
-        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+log = lambda x, y: ln(y)/ln(x)
+CONFIG_OPTIONS["antialias"] = settings["Anti-aliasing"] == "Enabled"
 
 
 class Widget(QWidget):
@@ -58,11 +35,17 @@ class Widget(QWidget):
         super().__init__()
         self.setWindowTitle(tras("New Figure"))
 
-        self.list_widget = ListWidget(self)
+        self.scrollarea = QScrollArea(self)
+        self.scrollarea.setWidgetResizable(True)
+        self.widget = QWidget()
+        self.lay = QVBoxLayout(self.widget)
+        self.lay.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.scrollarea.setWidget(self.widget)
 
         self.mode = "black" if darkdetect.theme() == "Dark" and \
             settings["Window-Effect"] != "Default" else "white"
         self.plot = PlotWidget(background=self.mode)
+        # self.plot.plotItem.addItem()
         self.plot.plotItem.resizeEvent = self.pass_event
         self.plot.plotItem.showGrid(True, True)
         self.plot.plotItem.setMenuEnabled(False)
@@ -73,18 +56,18 @@ class Widget(QWidget):
 
         self.menu_bar = QMenuBar(self)
 
-        self.items1 = [(tras("Save as"), self.save_figure)]
+        self.items1 = [(tras("Save as"), self.save_figure, "Ctrl+S")]
         self.items2 = [
-            (tras("Draw"), self.dialog.show),
-            (tras("Undo"), self.remove),
-            (tras("Clear"), self.plot.plotItem.clear)
+            (tras("Draw"), self.dialog.show, "Alt+D"),
+            (tras("Undo"), self.remove, "Ctrl+Z"),
+            (tras("Clear"), self.plot.plotItem.clear, "Alt+C")
         ]
 
         self.add_menu(tras("File"), self.items1)
         self.add_menu(tras("Edit"), self.items2)
 
         self.hlayout2 = QHBoxLayout()
-        self.hlayout2.addWidget(self.list_widget, 1)
+        self.hlayout2.addWidget(self.scrollarea, 1)
         self.hlayout2.addWidget(self.plot, 5)
 
         self.vlayout = QVBoxLayout(self)
@@ -96,9 +79,10 @@ class Widget(QWidget):
         为菜单栏添加菜单
         """
         menu = Menu(menu_text, self)
-        for text, callback in item:
+        for text, callback, shortcut in item:
             action = QAction(text, self)
             action.triggered.connect(callback)
+            action.setShortcut(shortcut)
             menu.addAction(action)
         self.menu_bar.addMenu(menu)
 
@@ -108,53 +92,31 @@ class Widget(QWidget):
         """
         try:
             if (functype := dic["FuncType"]) == "f(x)=":
-                x = linspace(-30, 30, 50000)
+                x = linspace(-200, 200, 10**4+1)
                 y = eval(dic["FuncName"])
                 if isinstance(y, (int, float)):
-                    x = (-1000, 1000)
+                    x = (-10**9, 10**9)
                     y = (y, y)
             elif functype == "f(y)=":
-                y = linspace(-30, 30, 50000)
+                y = linspace(-200, 200, 10**4+1)
                 x = eval(dic["FuncName"])
                 if isinstance(x, (int, float)):
-                    y = (-1000, 1000)
+                    y = (-10**9, 10**9)
                     x = (x, x)
             elif functype == "normal":
                 μ, σ = list(map(float, dic["FuncName"].split(",")))
-                x = linspace(μ-15, μ+15, 50000)
+                x = linspace(μ-300, μ+300, 10**6)
                 y = (1/(sqrt(2*pi)*σ))*e**(-(x-μ)**2/(2*σ**2))
-            # elif functype == "ellipse":
-            #     lis = list(map(float, dic["FuncName"].split(",")))
-            #     if len(lis) < 4:
-            #         lis += [0]*(4-len(lis))
-            #     a, b, x, y = lis
-            #     tmp = Ellipse(xy=(x, y), width=2*a, height=2*b)
-            # elif functype == "circle":
-            #     lis = list(map(float, dic["FuncName"].split(",")))
-            #     if len(lis) < 3:
-            #         lis += [0]*(3-len(lis))
-            #     r, x, y = lis
-            #     tmp = Circle(xy=(x, y), radius=r)
-            # if functype not in ("ellipse", "circle"):
-            pen = QPen(QColor("pink"), 2)
+
+            pen = QPen(QColor("pink"), float(settings["line-thick"]))
             pen.setCosmetic(True)
             tmp = self.plot.plotItem.plot(x, y, pen=pen)
-            # else:
-            #     tmp.set_fill(False)
-            #     self.ax.add_patch(tmp)
             self.funclist.append(tmp)
-            self.add_label(dic["FuncName"])
-            self.dialog.hide()
-            self.dialog.debug_line.setText("")
+            # 添加解析式标签
+            self.lay.addWidget(QPushButton(functype+dic["FuncName"]))
+            self.dialog.close()
         except Exception:
             self.dialog.debug_line.setText(tras("Function input error!"))
-
-    def add_label(self, name: str):
-        """
-        添加解析式标签
-        """
-        self.list_widget.setCurrentRow(self.list_widget.count())
-        self.list_widget.add_widget(name)
 
     def remove(self):
         """

@@ -6,35 +6,16 @@ import json
 import os
 import sys
 
-from PySide6.QtCore import QSize, Qt, qVersion
-from PySide6.QtGui import QFontDatabase, QMouseEvent
-from PySide6.QtWidgets import (QApplication, QComboBox, QFileDialog,
-                               QGridLayout, QHBoxLayout, QLabel, QListView,
-                               QListWidget, QListWidgetItem, QPushButton,
-                               QStackedWidget, QVBoxLayout, QWidget)
+from PySide6.QtCore import Qt, qVersion
+from PySide6.QtGui import QFontDatabase
+from PySide6.QtWidgets import (
+    QApplication, QHBoxLayout, QLabel, QListView, QListWidget,
+    QListWidgetItem, QPushButton, QStackedWidget, QVBoxLayout, QWidget)
 
 from translate import tras, settings, LANG
+from widgets import ComboBox
 
-__ver__ = "0.6.16"
-
-
-class ComboBox(QComboBox):
-    """
-    重写QComboBox
-    """
-    def __init__(self, items: list) -> None:
-        super().__init__()
-        self.setEditable(True)
-        self.line = self.lineEdit()
-        self.line.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.line.setReadOnly(True)
-        self.list = QListWidget(self)
-        for item in items:
-            self.list_item = QListWidgetItem(item)
-            self.list_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.list.addItem(self.list_item)
-        self.setModel(self.list.model())
-        self.setView(self.list)
+__ver__ = "0.7.0b5"
 
 
 class SettingWidgetBase(QWidget):
@@ -46,6 +27,7 @@ class SettingWidgetBase(QWidget):
         self.setWindowTitle(title)
 
         self.vlayout = QVBoxLayout(self)
+        self.vlayout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
     def add_layout(self, text: str, items: list) -> ComboBox:
         """
@@ -54,8 +36,8 @@ class SettingWidgetBase(QWidget):
         label = QLabel(text, self)
         box = ComboBox(items)
         layout = QHBoxLayout()
-        layout.addWidget(label)
-        layout.addWidget(box)
+        layout.addWidget(label, 2)
+        layout.addWidget(box, 3)
         self.vlayout.addLayout(layout)
         return box
 
@@ -133,7 +115,6 @@ class Setting(QWidget):
 
         item = QListWidgetItem(widget.windowTitle(), self.list_widget)
         item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
-        item.setSizeHint(QSize(0, 25))
         item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
 
@@ -146,21 +127,20 @@ class UIWidget(SettingWidgetBase):
 
         self.font_box = self.add_layout(
             tras("Font"), QFontDatabase().families(
-                QFontDatabase.WritingSystem.SimplifiedChinese))
-
+                QFontDatabase.WritingSystem.Any))
         self.font_box.setCurrentText(settings["Font"])
 
         self.font_size_box = self.add_layout(
             tras("Font Size"), map(str, range(16, 28, 2)))
-
         self.font_size_box.setCurrentText(settings["Font-Size"])
 
         self.language_box = self.add_layout(
-            tras("interface language"), ["Chinese", "English", "Japanese"])
-
+            tras("Language"), ["Chinese", "English", "Japanese"])
         self.language_box.setCurrentText(LANG)
 
-        self.vlayout.addWidget(QLabel())
+        self.effect_box = self.add_layout(
+            tras("Window Effect"), ["Default", "Mica", "Acrylic", "Aero"])
+        self.effect_box.setCurrentText(settings["Window-Effect"])
 
     def save_setting(self):
         """
@@ -169,47 +149,29 @@ class UIWidget(SettingWidgetBase):
         settings["Font"] = self.font_box.currentText()
         settings["Font-Size"] = self.font_size_box.currentText()
         settings["language"] = self.language_box.currentText()
+        settings["Window-Effect"] = self.effect_box.currentText()
 
 
-class FigureWidget(QWidget):
+class FigureWidget(SettingWidgetBase):
     """
     Figure设置页
     """
     def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Figure")
+        super().__init__("Figure")
 
-        self.mica_label = QLabel(tras("Window Effect"))
-        self.mica_box = ComboBox(["Default", "Mica", "Acrylic"])
-        self.mica_box.setCurrentText(settings["Window-Effect"])
+        self.line_box = self.add_layout(tras("line thick"), map(str, range(6)))
+        self.line_box.setCurrentText(settings["line-thick"])
 
-        self.save_path_label = QLabel(tras("File Save Path"))
-        self.select_label = QLabel(settings["defaultPath"])
-        self.select_label.mouseDoubleClickEvent = self.change_save_path
-
-        self.layout = QGridLayout(self)
-
-        self.layout.addWidget(self.mica_label, 1, 0)
-        self.layout.addWidget(self.mica_box, 1, 1)
-        self.layout.addWidget(self.save_path_label, 2, 0)
-        self.layout.addWidget(self.select_label, 2, 1)
-
-        self.layout.addWidget(QLabel(), 4, 0, 5, 2)
+        self.anti_box = self.add_layout(
+            tras("Enable antialias image"), ["Enabled", "Disabled"])
+        self.anti_box.setCurrentText(settings["Anti-aliasing"])
 
     def save_setting(self):
         """
         保存设置
         """
-        settings["Window-Effect"] = self.mica_box.currentText()
-        settings["defaultPath"] = self.select_label.text()
-
-    def change_save_path(self, event: QMouseEvent):
-        """
-        修改默认保存位置
-        """
-        if event.buttons() == Qt.MouseButton.LeftButton and \
-                (path := QFileDialog.getExistingDirectory(self)):
-            self.select_label.setText(path)
+        settings["line-thick"] = self.line_box.currentText()
+        settings["Anti-aliasing"] = self.anti_box.currentText()
 
 
 class AboutWidget(QLabel):

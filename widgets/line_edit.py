@@ -5,7 +5,6 @@
 from PySide6.QtGui import QAction, QContextMenuEvent
 from PySide6.QtWidgets import QLineEdit
 from . import Menu
-# from ..translate import tras
 
 
 class LineEdit(QLineEdit):
@@ -15,17 +14,18 @@ class LineEdit(QLineEdit):
     def __init__(self):
         super().__init__()
         self.right_menu_list = [
-            ("Undo", self.undo),
-            ("Redo", self.redo),
-            ("Copy", self.copy),
-            ("Paste", self.paste),
-            ("Select All", self.selectAll)
+            ("Undo", self.undo, "Ctrl+Z"),
+            ("Redo", self.redo, "Ctrl+Shift+Z"),
+            ("Copy", self.copy, "Ctrl+C"),
+            ("Paste", self.paste, "Ctrl+V"),
+            ("Select All", self.selectAll, "Ctrl+A")
         ]
 
         self.menu = Menu("", self)
-        for text, callback in self.right_menu_list:
+        for text, callback, shortcut in self.right_menu_list:
             action = QAction(text, self)
             action.triggered.connect(callback)
+            action.setShortcut(shortcut)
             self.menu.addAction(action)
 
     def contextMenuEvent(self, event: QContextMenuEvent) -> None:

@@ -7,13 +7,12 @@ import sys
 import webbrowser
 from effect import set_effect
 from PySide6.QtGui import QAction, QIcon, QKeyEvent, Qt, QMouseEvent
-from PySide6.QtWidgets import (QApplication, QPushButton, QTabWidget,
-                               QTextEdit, QWidget)
+from PySide6.QtWidgets import QApplication, QPushButton, QTabWidget, QWidget
 
 from widgets import Menu
 from graph import Widget
 from setting import Setting
-from translate import tras, settings, tmp_path
+from translate import tras, tmp_path
 
 
 class MainWidget(QTabWidget):
@@ -35,11 +34,6 @@ class MainWidget(QTabWidget):
         self.tab_button = QPushButton("+", self)
         self.tab_button.clicked.connect(self.add_widget)
         self.tab_button.setFixedSize(32, 32)
-
-        self.update_md = QTextEdit()
-        self.update_md.setReadOnly(True)
-        with open(tmp_path/"update.md", encoding="UTF-8") as file:
-            self.update_md.setMarkdown(file.read())
 
         self.menu_list = [
             (tras("Settings"), self.setting),
@@ -109,8 +103,8 @@ class MainWidget(QTabWidget):
         """
         打开更新日志
         """
-        self.insertTab(self.count()-1, self.update_md, tras("update log"))
-        self.setCurrentIndex(self.count()-2)
+        webbrowser.open(
+            "https://github.com/wtcpython/FuncDrawer/releases/latest")
 
     def open_gh(self):
         """
@@ -126,7 +120,7 @@ class MainWidget(QTabWidget):
         key = event.key()
         if ctrl and key == Qt.Key.Key_Q:
             self.close()
-        elif ctrl and key == Qt.Key.Key_N:
+        elif ctrl and key == Qt.Key.Key_T:
             self.add_widget()
         elif ctrl and key == Qt.Key.Key_Tab:
             index = self.currentIndex()
@@ -151,17 +145,10 @@ def main():
     主函数
     """
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("icon.ico"))
+    app.setWindowIcon(QIcon(str(tmp_path/"icon.ico")))
     app.setStyle("Fusion")
-    app.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
-    with open(tmp_path/"style.qss", encoding="UTF-8") as file:
-        style = file.read()
-    style += f"*{'{'}font:{settings['Font-Size']}px '{settings['Font']}'{'}'}"
-    app.setStyleSheet(style)
     window = MainWidget()
-    # window.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-    set_effect(window)
+    set_effect(app, window)
     window.showMaximized()
     sys.exit(app.exec())
 

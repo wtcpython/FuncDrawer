@@ -2,17 +2,16 @@
     对话框主文件
 """
 # pylint: disable=no-name-in-module
-from effect import set_effect
-from setting import ComboBox
-from translate import tras
-from widgets import LineEdit
 from PySide6.QtCore import Signal
 from PySide6.QtGui import Qt, QKeyEvent
 from PySide6.QtWidgets import QPushButton, QGridLayout, QWidget
+from effect import set_effect
+from translate import tras
+from widgets import LineEdit, ComboBox
 
 
 names = ["", "", "", "", "Back",
-         "round(", "(", ")", "absolute(", "sqrt(",
+         "round(", "(", ")", "Abs(", "sqrt(",
          "7", "8", "9", "**", "%",
          "4", "5", "6", "*", "/",
          "1", "2", "3", "+", "-",
@@ -22,7 +21,8 @@ box2 = [tras("Inverse trig"), "arcsin(", "arccos(", "arctan(",
         "arcsinh(", "arccosh(", "arctanh("]
 box3 = [tras("Log func"), "log(", "lg(", "ln(", "sqrt(", "abs("]
 box4 = [tras("constant"), "e", "pi"]
-STRING = "".join(set(names[5:-1]+box1+box2+box3+box4))
+ctl_key = [Qt.Key.Key_Delete, Qt.Key.Key_Left, Qt.Key.Key_Right,
+           Qt.Key.Key_Enter, Qt.Key.Key_Backspace, Qt.Key.Key_Return]
 
 
 class FuncLineEdit(LineEdit):
@@ -53,26 +53,9 @@ class FuncLineEdit(LineEdit):
         """
         text = event.text()
         key = event.key()
-        if key in [Qt.Key.Key_Left, Qt.Key.Key_Right, Qt.Key.Key_Backspace]:
+        if text not in "wfjk;''[]zvm_WYFJK{}" or \
+                key in ctl_key:
             super().keyPressEvent(event)
-
-        elif key == Qt.Key.Key_Up:
-            if self.his_list and self.his_pos > 0:
-                self.setText(self.his_list[self.his_pos])
-                self.his_pos -= 1
-
-        elif key == Qt.Key.Key_Down:
-            if self.his_list and self.his_pos < len(self.his_list)-1:
-                self.setText(self.his_list[self.his_pos])
-                self.his_pos += 1
-
-        elif text in STRING:
-            super().keyPressEvent(event)
-            if text == "(":
-                pos = self.cursorPosition()
-                txt = self.text()
-                self.setText(txt[:pos]+")"+txt[pos:])
-                self.setCursorPosition(pos)
 
 
 class FuncDialog(QWidget):
@@ -86,7 +69,7 @@ class FuncDialog(QWidget):
         super().__init__()
         self.setWindowTitle(tras("Func Drawer"))
         self.signal.emit({})
-        set_effect(self)
+        set_effect(None, self)
 
         self.glayout = QGridLayout(self)
         self.glayout.setSpacing(10)
@@ -143,6 +126,7 @@ class FuncDialog(QWidget):
         box.setCurrentIndex(0)
         if text != box.list.item(0).text():
             self.add_func(text)
+        self.display.setFocus()
 
     def button_clicked(self):
         """
@@ -153,6 +137,7 @@ class FuncDialog(QWidget):
             self.display.back()
         else:
             self.add_func(self.sender().text())
+        self.display.setFocus()
 
     def add_func(self, text: str):
         """
