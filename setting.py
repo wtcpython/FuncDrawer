@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 from translate import tras, settings, LANG
 from widgets import ComboBox
 
-__ver__ = "0.7.0b5"
+__ver__ = "0.7.0"
 
 
 class SettingWidgetBase(QWidget):
