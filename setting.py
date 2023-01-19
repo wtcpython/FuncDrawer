@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 from translate import tras, settings, LANG
 from widgets import ComboBox
 
-__ver__ = "0.7.0"
+__ver__ = "0.7.1"
 
 
 class SettingWidgetBase(QWidget):
@@ -54,7 +54,7 @@ class Setting(QWidget):
 
         self.list_widget = QListWidget()
         self.list_widget.setMovement(QListView.Movement.Static)
-        self.list_widget.setSpacing(1)
+        self.list_widget.setSpacing(3)
         self.list_widget.setCurrentRow(0)
 
         self.tip_label = QLabel(

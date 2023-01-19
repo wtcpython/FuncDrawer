@@ -31,7 +31,7 @@ class MainWidget(QTabWidget):
         self.icon_button = QPushButton(tras("More"))
         self.setCornerWidget(self.icon_button)
 
-        self.tab_button = QPushButton("+", self)
+        self.tab_button = QPushButton("＋", self)
         self.tab_button.clicked.connect(self.add_widget)
         self.tab_button.setFixedSize(32, 32)
 
@@ -146,7 +146,6 @@ def main():
     """
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon(str(tmp_path/"icon.ico")))
-    app.setStyle("Fusion")
     window = MainWidget()
     set_effect(app, window)
     window.showMaximized()
