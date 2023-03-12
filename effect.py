@@ -9,22 +9,27 @@ from PySide6.QtWidgets import QWidget
 from setting import settings
 
 STYLE = ""
-mode = darkdetect.theme() == "Dark"
+if (effect := settings["Window-Effect"]) == "Follow System":
+    mode = darkdetect.theme() == "Dark"
+else:
+    mode = effect
 
-TRAS = 255 if settings["Window-Effect"] == "Default" else 0
 
-BORDER = "border: 1px solid gray;"
 BORDER_RADIUS = "border-radius: 10px;"
 
-BKG_CLR = "background: rgb(240, 240, 240);"
+BKG_CLR = "background: rgba(240, 240, 240, 0);"
 if mode:
-    BKG_CLR = "background: rgb(32, 32, 32);"
-BKG_CLR2 = f"background: rgba(240, 240, 240, {TRAS});"
+    BKG_CLR = "background: rgba(32, 32, 32, 0);"
+BKG_CLR2 = "background: rgba(240, 240, 240, 0);"
 if mode:
-    BKG_CLR2 = f"background: rgba(32, 32, 32, {TRAS});"
+    BKG_CLR2 = "background: rgba(32, 32, 32, 0);"
 BKG_CLR_HOVER = "background: rgb(230, 230, 230);"
 if mode:
     BKG_CLR_HOVER = "background: rgb(63, 63, 63);"
+
+BKG_CLR3 = "background: rgb(220, 220, 220);"
+if mode:
+    BKG_CLR3 = "background: rgb(96, 96, 96);"
 
 color = (0, 0, 0)
 if mode:
@@ -43,18 +48,16 @@ STYLE += GLOBAL
 TABBAR = f"""
     QTabWidget::tab-bar{{
         left: 10px;
+        margin: 5px;
     }}
 
     QTabBar::tab{{
         margin-left: 2px;
+        margin-top: 5px;
         padding: 5px;
         min-width: 40px;
         height: 20px;
         {BORDER_RADIUS}
-    }}
-
-    QTabBar::tab:enabled{{
-        {BORDER}
     }}
 
     QTabBar::tab:selected{{
@@ -77,11 +80,10 @@ STYLE += MENUBAR
 
 MENU = f"""
     QMenu{{
-        {BKG_CLR}
+        {BKG_CLR3}
         margin: 0px;
         padding: 5px 0px 5px 0px;
         {BORDER_RADIUS}
-        border: 1px solid rgb(196, 199, 200);
     }}
 
     QMenu::separator{{
@@ -148,8 +150,7 @@ STYLE += LISTWIDGET
 
 PUSHBUTTON = f"""
     QPushButton{{
-        {BKG_CLR2}
-        {BORDER}
+        {BKG_CLR3}
         {BORDER_RADIUS}
         padding: 5px;
     }}
@@ -164,19 +165,17 @@ OTHER = f"""
     QToolTip{{
         padding: 5px;
         {BKG_CLR_HOVER}
-        {BORDER}
         {BORDER_RADIUS}
     }}
 
     QComboBox{{
         padding: 5px;
-        {BORDER}
+        {BKG_CLR3}
         {BORDER_RADIUS}
     }}
 
     #ComboBoxView{{
-        {BKG_CLR}
-        {BORDER}
+        {BKG_CLR3}
         {BORDER_RADIUS}
     }}
 
@@ -197,20 +196,13 @@ def set_effect(app: QWidget | None, widget: QWidget):
     """
     设置窗口效果
     """
-    if (window_effect := settings["Window-Effect"]) != "Default":
-        widget.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     if app:
         app.setStyleSheet(STYLE)
-    if window_effect == "Mica":
-        if sys.getwindowsversion().build > 22000:
-            import win32mica
-            win32mica.ApplyMica(widget.winId(), mode)
-        else:
-            widget.setAttribute(
-                Qt.WidgetAttribute.WA_TranslucentBackground, False)
+
+    if sys.getwindowsversion().build > 22000:
+        import win32mica
+        win32mica.ApplyMica(widget.winId(), mode)
+
     else:
-        from BlurWindow.blurWindow import GlobalBlur
-        if window_effect == "Acrylic":
-            GlobalBlur(widget.winId(), Acrylic=True, Dark=mode)
-        elif window_effect == "Aero":
-            GlobalBlur(widget.winId(), Dark=mode)
+        widget.setAttribute(
+                Qt.WidgetAttribute.WA_TranslucentBackground, False)

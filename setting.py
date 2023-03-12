@@ -145,7 +145,7 @@ class UIWidget(SettingWidgetBase):
 
         self.effect_box = self.add_label(
             tras("Window Effect"),
-            ComboBox(["Default", "Mica", "Acrylic", "Aero"]))
+            ComboBox(["Light", "Dark", "Follow System"]))
         self.effect_box.setCurrentText(settings["Window-Effect"])
 
     def save_setting(self):
