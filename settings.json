@@ -2,7 +2,7 @@
     "Font": "楷体",
     "Font-Size": "18",
     "language": "Chinese",
-    "Window-Effect": "Default",
+    "Window-Effect": "Follow System",
     "line-thick": "2",
     "Anti-aliasing": "Disabled"
 }
